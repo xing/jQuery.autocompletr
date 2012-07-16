@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Examples</title>
+  <link rel="stylesheet" type="text/css" href="reset.css">
+  <style type="text/css">
+    ul {
+      list-style-type: none;
+    }
+    .autocomplete-container {
+      background: #fff;
+      border: 1px solid #666;
+      padding: 2px;
+    }
+    .autocomplete-container li {
+      border-bottom: 1px solid #ccc;
+    }
+    .autocomplete-container .selected {
+      background: #dedede;
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <h1>A basic example</h1>
+    <input type="text" id="basic1">
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script src="../lib/jquery.autocompletr.js"></script>
+  <script>
+    $(function() {
+      $('#basic1').autocompletr({
+        source: ['foo', 'bar', 'baz', 'test'],
+        minLength: 1
+      });
+    });
+  </script>
+</body>
+</html>
