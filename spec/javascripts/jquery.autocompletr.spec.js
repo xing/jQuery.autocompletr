@@ -552,6 +552,36 @@ describe("jQuery.autocompletr", function() {
           expect($('#autocomplete-container').position().left).toBe(input.position().left);
         });
       });
+
+      describe("the user selects first item in box", function() {
+        beforeEach(function() {
+          var keydownEvent = $.Event('keydown');
+          keydownEvent.which = 40; // key: DOWN
+
+          input.trigger(keydownEvent);
+        });
+
+        describe("writes a comma (the box closes)", function() {
+          beforeEach(function() {
+            input.val('te,');
+            input.autocompletr('close');
+          });
+
+          describe("on hitting enter", function() {
+            beforeEach(function() {
+              var keydownEvent = $.Event('keydown');
+              keydownEvent.which = 13; // key: ENTER
+
+              input.trigger(keydownEvent);
+            });
+
+            it("does not change input", function() {
+              console.log(input.val());
+              expect(input).toHaveValue('te,');
+            });
+          });
+        });
+      });
     });
 
     describe("with default settings and fuzzy input", function() {
@@ -713,7 +743,7 @@ describe("jQuery.autocompletr", function() {
       describe("and press key down", function() {
         beforeEach(function() {
           var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
+          keydownEvent.which = 40; // key: ENTER
 
           input.trigger(keydownEvent);
         });
