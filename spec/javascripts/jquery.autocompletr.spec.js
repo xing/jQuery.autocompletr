@@ -576,7 +576,6 @@ describe("jQuery.autocompletr", function() {
             });
 
             it("does not change input", function() {
-              console.log(input.val());
               expect(input).toHaveValue('te,');
             });
           });
@@ -699,6 +698,29 @@ describe("jQuery.autocompletr", function() {
 
         it("closes the suggestions box", function() {
           expect($('#autocomplete-container')).toBeHidden();
+        });
+      });
+
+      describe("the event", function() {
+        beforeEach(function() {
+          input.autocompletr({ source: fields });
+          input.autocompletr('open');
+        });
+
+        it("gets propagated to the autocomplete-container", function() {
+          var count = 0;
+          $('#autocomplete-container').on('click', function() {
+            ++count;
+          });
+          $('#autocomplete-container ul li a:first').click();
+          expect(count).toBe(1);
+        });
+
+        it("gets not propagated to the body", function() {
+          $('body').on('click', function() {
+            expect(true).toBeFalsy();
+          });
+          $('#autocomplete-container ul li a:first').click();
         });
       });
     });
