@@ -47,6 +47,14 @@ Style it via css.
 
 It's that simple. But the default feature set can do more:
 
+
+## Browser support?
+
+Tested in IE 6 and above, Chrome, FF >= 3.6, Opera 12.
+
+But I do not guarantee to test regularly in IE 6, it just happend that I did.
+
+
 ## What can it do?
 
 Here is a list of things **jQuery.autocompletr** can do:
