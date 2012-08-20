@@ -133,6 +133,16 @@ If you want to change the input value before sending it to the server or letting
 
 If you do not specify otherwise, the selected value will be used as new value for the input. But if you pass a method to the `outputProcessor` option you can change that. It gets the selected value as first, and the old value in the input field as second parameter and needs a string returned which will then be used as new value for the input field.
 
+### Changing the options
+    $('input').autocompletr({
+      source: ['option1', 'option2']
+    });
+    $('input').autocompletr({
+      source: ['option1', 'option2', 'option3', 'option4']
+    });
+
+If autocompletr is called on an input field that is already enhanced, then every call after the initial call will only change the options. In this case, there would be four items suggested if you type 'op'.
+
 
 ## How to contribute
 

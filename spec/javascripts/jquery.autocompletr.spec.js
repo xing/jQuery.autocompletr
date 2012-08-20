@@ -450,6 +450,19 @@ describe("jQuery.autocompletr", function() {
     });
   });
 
+  describe("if calling autocompletr twice with different attributes", function() {
+    var count = 0;
+    beforeEach(function() {
+      input.autocompletr({ inputProcessor: function(val) { ++count; return val; } });
+      input.autocompletr({ inputProcessor: function(val) { return val; } });
+    });
+
+    it("second call just overrides the first one", function() {
+      input.autocompletr('open');
+      expect(count).toBe(0);
+    });
+  });
+
   describe("when open is called", function() {
     beforeEach(function() {
       input.val('test');
