@@ -614,10 +614,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("the user selects first item in box", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         describe("writes a comma (the box closes)", function() {
@@ -823,10 +820,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key down", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: ENTER
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         it("marks the following item as selected", function() {
@@ -875,10 +869,7 @@ describe("jQuery.autocompletr", function() {
         input.autocompletr({ source: fields, outputProcessor: function(val) { ++countOutputProcessor; valueOutputProcessor = val; return val; } });
         input.autocompletr('open');
 
-        var keydownEvent = $.Event('keydown');
-        keydownEvent.which = 40; // key: DOWN
-
-        input.trigger(keydownEvent);
+        pressKeyDown(input);
       });
 
       it("marks first entry as selected", function() {
@@ -902,10 +893,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key down again", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         it("marks the second entry as selected", function() {
@@ -914,10 +902,7 @@ describe("jQuery.autocompletr", function() {
 
         describe("and press key down a third time", function() {
           beforeEach(function() {
-            var keydownEvent = $.Event('keydown');
-            keydownEvent.which = 40; // key: DOWN
-
-            input.trigger(keydownEvent);
+            pressKeyDown(input);
           });
 
           it("has no items selected (since we have only two items)", function() {
@@ -957,10 +942,7 @@ describe("jQuery.autocompletr", function() {
         input.autocompletr({ source: fields });
         input.autocompletr('open');
 
-        var keydownEvent = $.Event('keydown');
-        keydownEvent.which = 38; // key: UP
-
-        input.trigger(keydownEvent);
+        pressKeyUp(input);
       });
 
       it("marks last entry as selected", function() {
@@ -969,10 +951,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key up again", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 38; // key: UP
-
-          input.trigger(keydownEvent);
+          pressKeyUp(input);
         });
 
         it("marks the first entry as selected", function() {
@@ -981,10 +960,7 @@ describe("jQuery.autocompletr", function() {
 
         describe("and press key up a third time", function() {
           beforeEach(function() {
-            var keydownEvent = $.Event('keydown');
-            keydownEvent.which = 38; // key: UP
-
-            input.trigger(keydownEvent);
+            pressKeyUp(input);
           });
 
           it("has no items selected (since we have only two items)", function() {
@@ -994,10 +970,7 @@ describe("jQuery.autocompletr", function() {
 
         describe("and press key down then", function() {
           beforeEach(function() {
-            var keydownEvent = $.Event('keydown');
-            keydownEvent.which = 40; // key: DOWN
-
-            input.trigger(keydownEvent);
+            pressKeyDown(input);
           });
 
           it("has no items selected (since we have only two items)", function() {
@@ -1008,10 +981,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key down then", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         it("has no items selected (since we have only two items)", function() {
@@ -1088,10 +1058,7 @@ describe("jQuery.autocompletr", function() {
 
     describe("and press key down", function() {
       beforeEach(function() {
-        var keydownEvent = $.Event('keydown');
-        keydownEvent.which = 40; // key: DOWN
-
-        input.trigger(keydownEvent);
+        pressKeyDown(input);
       });
 
       it("the menu is not there", function() {
