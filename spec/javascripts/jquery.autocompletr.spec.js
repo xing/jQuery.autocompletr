@@ -586,12 +586,12 @@ describe("jQuery.autocompletr", function() {
         });
 
         it("is shown directly below the input field", function() {
-          var positionBelowInput = input.position().top + input.height();
-          expect($('#autocomplete-container').position().top).toBe(positionBelowInput);
+          var positionBelowInput = input.offset().top + input.outerHeight();
+          expect($('#autocomplete-container').offset().top).toBe(positionBelowInput);
         });
 
         it("is shown on same x coodinates", function() {
-          expect($('#autocomplete-container').position().left).toBe(input.position().left);
+          expect($('#autocomplete-container').offset().left).toBe(input.offset().left);
         });
       });
 
