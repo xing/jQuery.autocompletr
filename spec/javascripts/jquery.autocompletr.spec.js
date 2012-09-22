@@ -58,6 +58,23 @@ describe("jQuery.autocompletr", function() {
     $('#autocomplete-container').remove();
   });
 
+  function pressKeyDown(input, times) {
+    for (times = times || 1; times--;) {
+      var keydownEvent = $.Event('keydown');
+      keydownEvent.which = 40; // key: DOWN
+
+      input.trigger(keydownEvent);
+    }
+  }
+  function pressKeyUp(input, times) {
+    for (times = times || 1; times--;) {
+      var keydownEvent = $.Event('keydown');
+      keydownEvent.which = 38; // key: UP
+
+      input.trigger(keydownEvent);
+    }
+  }
+
   it("is a jQuery plugin", function() {
     expect(input.autocompletr).toBeFunction();
   });
@@ -999,6 +1016,66 @@ describe("jQuery.autocompletr", function() {
 
         it("has no items selected (since we have only two items)", function() {
           expect($('#autocomplete-container ul')).not.toContain('.selected');
+        });
+      });
+    });
+  });
+
+  describe("when we have more items to show that fits in the list", function() {
+    beforeEach(function() {
+      input.val('a');
+      input.autocompletr({ source: ['a1', 'a2', 'a3', 'a4', 'a5'], minLength: 1 })
+           .autocompletr('open');
+      $('#autocomplete-container').css({ height: '100px', 'overflow-x': 'scroll' });
+      $('#autocomplete-container li').css({ height: '40px' });
+    });
+
+    describe("when selecting the first element", function() {
+      beforeEach(function() {
+        pressKeyDown(input);
+      });
+
+      it("the box does not scroll yet", function() {
+        expect($('#autocomplete-container').scrollTop()).toBe(0);
+      });
+    });
+
+    describe("when selecting the second element", function() {
+      beforeEach(function() {
+        pressKeyDown(input, 2);
+      });
+
+      it("the box does not scroll yet", function() {
+        expect($('#autocomplete-container').scrollTop()).toBe(0);
+      });
+    });
+
+    describe("when selecting the third element", function() {
+      beforeEach(function() {
+        pressKeyDown(input, 3);
+      });
+
+      it("the box does scroll, so the third element is visible", function() {
+        expect($('#autocomplete-container').scrollTop()).toBe(20);
+      });
+
+      describe("when stepping back to second element", function() {
+        beforeEach(function() {
+          pressKeyUp(input, 1);
+        });
+
+        it("the box does not scroll back", function() {
+          expect($('#autocomplete-container').scrollTop()).toBe(20);
+        });
+      });
+
+      describe("when stepping back to first element", function() {
+        beforeEach(function() {
+          pressKeyUp(input, 2);
+        });
+
+        it("the box does scroll up so the first is visible again", function() {
+          expect($('#autocomplete-container').scrollTop()).toBe(0);
         });
       });
     });
