@@ -143,6 +143,16 @@ If you do not specify otherwise, the selected value will be used as new value fo
 
 If autocompletr is called on an input field that is already enhanced, then every call after the initial call will only change the options. In this case, there would be four items suggested if you type 'op'.
 
+### Restricting the size of suggestion box
+    <style type="text/css">
+      #autocomplete-container {
+        max-height: 150px;
+        overflow: hidden;
+      }
+    </style>
+
+There is no option for that, but if you have more suggestions then the box (max-)height can handle, the container fill automatically scroll the suggestion box so you always can see what you have currently selected. Sweet, isn't it? ;-)
+
 
 ## How to contribute
 
