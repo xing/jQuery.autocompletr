@@ -58,6 +58,23 @@ describe("jQuery.autocompletr", function() {
     $('#autocomplete-container').remove();
   });
 
+  function pressKeyDown(input, times) {
+    for (times = times || 1; times--;) {
+      var keydownEvent = $.Event('keydown');
+      keydownEvent.which = 40; // key: DOWN
+
+      input.trigger(keydownEvent);
+    }
+  }
+  function pressKeyUp(input, times) {
+    for (times = times || 1; times--;) {
+      var keydownEvent = $.Event('keydown');
+      keydownEvent.which = 38; // key: UP
+
+      input.trigger(keydownEvent);
+    }
+  }
+
   it("is a jQuery plugin", function() {
     expect(input.autocompletr).toBeFunction();
   });
@@ -586,21 +603,18 @@ describe("jQuery.autocompletr", function() {
         });
 
         it("is shown directly below the input field", function() {
-          var positionBelowInput = input.position().top + input.height();
-          expect($('#autocomplete-container').position().top).toBe(positionBelowInput);
+          var positionBelowInput = input.offset().top + input.outerHeight();
+          expect($('#autocomplete-container').offset().top).toBe(positionBelowInput);
         });
 
         it("is shown on same x coodinates", function() {
-          expect($('#autocomplete-container').position().left).toBe(input.position().left);
+          expect($('#autocomplete-container').offset().left).toBe(input.offset().left);
         });
       });
 
       describe("the user selects first item in box", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         describe("writes a comma (the box closes)", function() {
@@ -806,10 +820,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key down", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: ENTER
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         it("marks the following item as selected", function() {
@@ -858,10 +869,7 @@ describe("jQuery.autocompletr", function() {
         input.autocompletr({ source: fields, outputProcessor: function(val) { ++countOutputProcessor; valueOutputProcessor = val; return val; } });
         input.autocompletr('open');
 
-        var keydownEvent = $.Event('keydown');
-        keydownEvent.which = 40; // key: DOWN
-
-        input.trigger(keydownEvent);
+        pressKeyDown(input);
       });
 
       it("marks first entry as selected", function() {
@@ -885,10 +893,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key down again", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         it("marks the second entry as selected", function() {
@@ -897,10 +902,7 @@ describe("jQuery.autocompletr", function() {
 
         describe("and press key down a third time", function() {
           beforeEach(function() {
-            var keydownEvent = $.Event('keydown');
-            keydownEvent.which = 40; // key: DOWN
-
-            input.trigger(keydownEvent);
+            pressKeyDown(input);
           });
 
           it("has no items selected (since we have only two items)", function() {
@@ -940,10 +942,7 @@ describe("jQuery.autocompletr", function() {
         input.autocompletr({ source: fields });
         input.autocompletr('open');
 
-        var keydownEvent = $.Event('keydown');
-        keydownEvent.which = 38; // key: UP
-
-        input.trigger(keydownEvent);
+        pressKeyUp(input);
       });
 
       it("marks last entry as selected", function() {
@@ -952,10 +951,7 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key up again", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 38; // key: UP
-
-          input.trigger(keydownEvent);
+          pressKeyUp(input);
         });
 
         it("marks the first entry as selected", function() {
@@ -964,10 +960,7 @@ describe("jQuery.autocompletr", function() {
 
         describe("and press key up a third time", function() {
           beforeEach(function() {
-            var keydownEvent = $.Event('keydown');
-            keydownEvent.which = 38; // key: UP
-
-            input.trigger(keydownEvent);
+            pressKeyUp(input);
           });
 
           it("has no items selected (since we have only two items)", function() {
@@ -977,10 +970,7 @@ describe("jQuery.autocompletr", function() {
 
         describe("and press key down then", function() {
           beforeEach(function() {
-            var keydownEvent = $.Event('keydown');
-            keydownEvent.which = 40; // key: DOWN
-
-            input.trigger(keydownEvent);
+            pressKeyDown(input);
           });
 
           it("has no items selected (since we have only two items)", function() {
@@ -991,14 +981,71 @@ describe("jQuery.autocompletr", function() {
 
       describe("and press key down then", function() {
         beforeEach(function() {
-          var keydownEvent = $.Event('keydown');
-          keydownEvent.which = 40; // key: DOWN
-
-          input.trigger(keydownEvent);
+          pressKeyDown(input);
         });
 
         it("has no items selected (since we have only two items)", function() {
           expect($('#autocomplete-container ul')).not.toContain('.selected');
+        });
+      });
+    });
+  });
+
+  describe("when we have more items to show that fits in the list", function() {
+    beforeEach(function() {
+      input.val('a');
+      input.autocompletr({ source: ['a1', 'a2', 'a3', 'a4', 'a5'], minLength: 1 })
+           .autocompletr('open');
+      $('#autocomplete-container').css({ height: '100px', 'overflow-x': 'scroll' });
+      $('#autocomplete-container li').css({ height: '40px' });
+    });
+
+    describe("when selecting the first element", function() {
+      beforeEach(function() {
+        pressKeyDown(input);
+      });
+
+      it("the box does not scroll yet", function() {
+        expect($('#autocomplete-container').scrollTop()).toBe(0);
+      });
+    });
+
+    describe("when selecting the second element", function() {
+      beforeEach(function() {
+        pressKeyDown(input, 2);
+      });
+
+      it("the box does not scroll yet", function() {
+        expect($('#autocomplete-container').scrollTop()).toBe(0);
+      });
+    });
+
+    describe("when selecting the third element", function() {
+      beforeEach(function() {
+        pressKeyDown(input, 3);
+      });
+
+      it("the box does scroll, so the third element is visible", function() {
+        expect($('#autocomplete-container').scrollTop()).toBe(20);
+      });
+
+      describe("when stepping back to second element", function() {
+        beforeEach(function() {
+          pressKeyUp(input, 1);
+        });
+
+        it("the box does not scroll back", function() {
+          expect($('#autocomplete-container').scrollTop()).toBe(20);
+        });
+      });
+
+      describe("when stepping back to first element", function() {
+        beforeEach(function() {
+          pressKeyUp(input, 2);
+        });
+
+        it("the box does scroll up so the first is visible again", function() {
+          expect($('#autocomplete-container').scrollTop()).toBe(0);
         });
       });
     });
@@ -1011,10 +1058,7 @@ describe("jQuery.autocompletr", function() {
 
     describe("and press key down", function() {
       beforeEach(function() {
-        var keydownEvent = $.Event('keydown');
-        keydownEvent.which = 40; // key: DOWN
-
-        input.trigger(keydownEvent);
+        pressKeyDown(input);
       });
 
       it("the menu is not there", function() {
