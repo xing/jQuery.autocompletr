@@ -25,6 +25,16 @@
     .autocomplete-container .selected {
       background: #dedede;
     }
+    section {
+      float: left;
+      width: 200px;
+    }
+    input, textarea {
+      width: 90%;
+    }
+    textarea {
+      height: 50px;
+    }
   </style>
 </head>
 <body>
@@ -32,13 +42,23 @@
     <h1>A basic example</h1>
     <input type="text" id="basic1">
   </section>
+  <section>
+    <h1>An example using a textarea</h1>
+    <textarea id="basic2"></textarea>
+  </section>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="../lib/jquery.autocompletr.js"></script>
   <script>
     $(function() {
+      var suggestions = ['spleenful', 'cacology', 'ataraxia', 'vigorish', 'bathetic', 'simper', 'phthisis', 'hieratic', 'bole', 'natty', 'orectic', 'billet-doux', 'omnific', 'sesquipedalianism', 'jnana', 'iatrogenic', 'vamoose', 'perpend', 'eristic', 'chevron', 'muliebrity', 'mugwump', 'matriculate', 'malapert', 'afterclap', 'sawyer', 'kibitz', 'eidetic', 'majuscule', 'tipple', 'plucky', 'baksheesh', 'suspire', 'phlegmatic', 'adumbrate', 'shivaree', 'regnant', 'waxing', 'ethereal', 'epoch', 'scuttle', 'threnody'];
       $('#basic1').autocompletr({
-        source: ['spleenful', 'cacology', 'ataraxia', 'vigorish', 'bathetic', 'simper', 'phthisis', 'hieratic', 'bole', 'natty', 'orectic', 'billet-doux', 'omnific', 'sesquipedalianism', 'jnana', 'iatrogenic', 'vamoose', 'perpend', 'eristic', 'chevron', 'muliebrity', 'mugwump', 'matriculate', 'malapert', 'afterclap', 'sawyer', 'kibitz', 'eidetic', 'majuscule', 'tipple', 'plucky', 'baksheesh', 'suspire', 'phlegmatic', 'adumbrate', 'shivaree', 'regnant', 'waxing', 'ethereal', 'epoch', 'scuttle', 'threnody'],
+        source: suggestions,
+        minLength: 1,
+        closeDelay: 200
+      });
+      $('#basic2').autocompletr({
+        source: suggestions,
         minLength: 1
       });
     });
