@@ -413,6 +413,69 @@ describe("jQuery.autocompletr", function() {
         });
       });
     });
+
+    describe("closeDelay", function() {
+      describe("not set defaults to 500", function() {
+        beforeEach(function() {
+          input.autocompletr({ source: ['foo'], minLength: 1 });
+          input.val('f');
+          input.trigger('keydown');
+          jasmine.Clock.tick(301);
+          input.trigger('blur');
+        });
+
+        it("is still showing the suggestions after 499 ms", function() {
+          jasmine.Clock.tick(499);
+          expect($('#autocomplete-container')).toBeVisible();
+        });
+
+        it("hides the suggestions after 500 ms", function() {
+          console.log(1, $('.autocomplete-container'));
+          jasmine.Clock.tick(500);
+          expect($('#autocomplete-container')).toBeHidden();
+        });
+      });
+
+      describe("set to 1000", function() {
+        beforeEach(function() {
+          input.autocompletr({ source: ['foo'], minLength: 1, closeDelay: 1000 });
+          input.val('f');
+          input.trigger('keydown');
+          jasmine.Clock.tick(301);
+          input.trigger('blur');
+        });
+
+        it("is still showing the suggestions after 999 ms", function() {
+          jasmine.Clock.tick(999);
+          expect($('#autocomplete-container')).toBeVisible();
+        });
+
+        it("hides the suggestions after 1000 ms", function() {
+          jasmine.Clock.tick(1000);
+          expect($('#autocomplete-container')).toBeHidden();
+        });
+      });
+
+      describe("set to 1", function() {
+        beforeEach(function() {
+          input.autocompletr({ source: ['foo'], minLength: 1, closeDelay: 1 });
+          input.val('f');
+          input.trigger('keydown');
+          jasmine.Clock.tick(301);
+          input.trigger('blur');
+        });
+
+        it("is still showing the suggestions after 199 ms", function() {
+          jasmine.Clock.tick(199);
+          expect($('#autocomplete-container')).toBeVisible();
+        });
+
+        it("hides the suggestions only after 200 ms (that's minimum)", function() {
+          jasmine.Clock.tick(209);
+          expect($('#autocomplete-container')).toBeHidden();
+        });
+      });
+    });
   });
 
   describe("the action", function() {
