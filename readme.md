@@ -153,6 +153,14 @@ If autocompletr is called on an input field that is already enhanced, then every
 
 There is no option for that, but if you have more suggestions then the box (max-)height can handle, the container fill automatically scroll the suggestion box so you always can see what you have currently selected. Sweet, isn't it? ;-)
 
+### If I blur the input and focus again, the suggestion do not reappear, why?
+    $('input').autocompletr({
+      source: '/typeahead',
+      reopenOnFocus: true // that is false by default
+    });
+
+If you write something and get some suggestions and then blur the input field the suggestions will disappear. If you focus the input field again the suggestions will not show again automatically — only after you type something again. If you do want to reappear, you can specify the `reopenOnFocus` option and then the suggestions will reopen when you focus the input field.
+
 
 ## How to contribute
 
