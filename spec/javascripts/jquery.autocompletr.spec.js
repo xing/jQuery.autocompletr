@@ -379,6 +379,40 @@ describe("jQuery.autocompletr", function() {
         });
       });
     });
+
+    describe("reopenOnFocus", function() {
+      describe("set to false", function() {
+        beforeEach(function() {
+          input.autocompletr({ source: ['foo'], minLength: 1, reopenOnFocus: false });
+          input.val('f');
+          input.autocompletr('open');
+          input.focus();
+          input.blur();
+          jasmine.Clock.tick(501);
+        });
+
+        it("does not open the suggestion box again on focus", function() {
+          input.focus();
+          expect($('#autocomplete-container')).toBeHidden();
+        });
+      });
+
+      describe("set to true", function() {
+        beforeEach(function() {
+          input.autocompletr({ source: ['foo'], minLength: 1, reopenOnFocus: true });
+          input.val('f');
+          input.autocompletr('open');
+          input.focus();
+          input.blur();
+          jasmine.Clock.tick(501);
+        });
+
+        it("does reopen the suggestion box again on focus", function() {
+          input.focus();
+          expect($('#autocomplete-container')).toBeVisible();
+        });
+      });
+    });
   });
 
   describe("the action", function() {
