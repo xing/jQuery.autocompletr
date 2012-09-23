@@ -85,7 +85,15 @@ In passing a (absolute or relative) url to the `source` parameter, the input fie
       delay: 500 # default: 300
     });
 
-With the `delay`parameter you can change the time the user has to wait, before the request is made to the server, asking for suggestions. Reducing the time will get faster suggestions to the user, but will probably increase the number of requests made to server the user will not see because he has typed ahead.
+With the `delay` parameter you can change the time the user has to wait, before the request is made to the server, asking for suggestions. Reducing the time will get faster suggestions to the user, but will probably increase the number of requests made to server the user will not see because he has typed ahead.
+
+### Changing the closing delay
+    $('input').autocompletr({
+      source: '/typeahead',
+      closeDelay: 200 # default: 500 and 200 is minimum
+    });
+
+With the `closeDelay` parameter you can change the time after that the suggestionbox will disappear after you blurred the input field.
 
 ### changing where the Suggestion box will be appended
     $('input').autocompletr({
