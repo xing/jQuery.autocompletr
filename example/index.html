@@ -26,7 +26,8 @@
       background: #dedede;
     }
     section {
-      float: left;
+      display: inline-block;
+      margin-right: 10px;
       width: 200px;
     }
     input, textarea {
@@ -47,19 +48,46 @@
     <textarea id="basic2"></textarea>
   </section>
 
+  <section>
+    <h1>A comma separated example</h1>
+    <input type="text" id="basic3">
+  </section>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
   <script src="../lib/jquery.autocompletr.js"></script>
   <script>
     $(function() {
       var suggestions = ['spleenful', 'cacology', 'ataraxia', 'vigorish', 'bathetic', 'simper', 'phthisis', 'hieratic', 'bole', 'natty', 'orectic', 'billet-doux', 'omnific', 'sesquipedalianism', 'jnana', 'iatrogenic', 'vamoose', 'perpend', 'eristic', 'chevron', 'muliebrity', 'mugwump', 'matriculate', 'malapert', 'afterclap', 'sawyer', 'kibitz', 'eidetic', 'majuscule', 'tipple', 'plucky', 'baksheesh', 'suspire', 'phlegmatic', 'adumbrate', 'shivaree', 'regnant', 'waxing', 'ethereal', 'epoch', 'scuttle', 'threnody'];
+
       $('#basic1').autocompletr({
         source: suggestions,
         minLength: 1,
         closeDelay: 200
       });
+
       $('#basic2').autocompletr({
         source: suggestions,
         minLength: 1
+      });
+
+      $('#basic3').autocompletr({
+        source: suggestions,
+        minLength: 1,
+        delay: 0,
+
+        // only search for the letters after the comma
+        inputProcessor: function(input) {
+          var words = input.split(',');
+          return words[words.length - 1];
+        },
+
+        // append the chosen word after the last comma
+        outputProcessor: function(output) {
+          var words = $('#basic3').val().split(',');
+          words.pop();
+          words.push(output);
+          return words.join(', ').replace(/\s+/g, ' ');
+        }
       });
     });
   </script>
